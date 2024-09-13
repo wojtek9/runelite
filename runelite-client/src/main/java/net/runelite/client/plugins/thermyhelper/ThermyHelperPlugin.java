@@ -48,12 +48,9 @@ public class ThermyHelperPlugin extends Plugin {
         overlayManager.remove(overlay);
     }
 
-    public NPC getThermonuclearSmokeDevil()
-    {
-        for (NPC npc : client.getNpcs())
-        {
-            if (npc.getId() == THERMONUCLEAR_SMOKE_DEVIL)
-            {
+    public NPC getThermonuclearSmokeDevil() {
+        for (NPC npc : client.getNpcs()) {
+            if (npc.getId() == THERMONUCLEAR_SMOKE_DEVIL) {
                 return npc;
             }
         }
