@@ -17,15 +17,17 @@ import java.util.List;
 public class ThermyHelperOverlay extends Overlay {
     private final Client client;
     private final ThermyHelperPlugin plugin;
+    private final ThermyHelperConfig config;
 
     @Inject
     private ModelOutlineRenderer modelOutlineRenderer;
 
     @Inject
-    public ThermyHelperOverlay(Client client, ThermyHelperPlugin plugin)
+    public ThermyHelperOverlay(Client client, ThermyHelperPlugin plugin, ThermyHelperConfig config)
     {
         this.client = client;
         this.plugin = plugin;
+        this.config = config;
         setPosition(OverlayPosition.DYNAMIC);
         setLayer(OverlayLayer.ABOVE_SCENE);
         setPriority(OverlayPriority.HIGH);
@@ -47,8 +49,12 @@ public class ThermyHelperOverlay extends Overlay {
                 net.runelite.api.coords.LocalPoint localTile = net.runelite.api.coords.LocalPoint.fromWorld(client, tile);
                 if (localTile != null)
                 {
+                    // Get user config
+                    Color color = config.tileColor();
+                    int width = config.tileWidth();
+                    int transparency = config.transparency();
                     // Highlight the tile
-                    drawTile(graphics, localTile, Color.RED, 2, 150);
+                    drawTile(graphics, localTile, color, width, transparency);
                 }
             }
         }

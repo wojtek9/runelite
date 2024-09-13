@@ -1,8 +1,10 @@
 package net.runelite.client.plugins.thermyhelper;
 
+import com.google.inject.Provides;
 import net.runelite.api.Client;
 import net.runelite.api.NPC;
 import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.config.ConfigManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
@@ -27,6 +29,14 @@ public class ThermyHelperPlugin extends Plugin {
 
     @Inject
     private ThermyHelperOverlay overlay;
+
+    @Inject
+    private ThermyHelperConfig config;
+
+    @Provides
+    ThermyHelperConfig getConfig(ConfigManager configManager) {
+        return configManager.getConfig(ThermyHelperConfig.class);
+    }
 
     @Override
     protected void startUp() throws Exception {
@@ -56,7 +66,9 @@ public class ThermyHelperPlugin extends Plugin {
 
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dy = -radius; dy <= radius; dy++) {
-                if (Math.sqrt(dx * dx + dy * dy) == 9) {
+                // Calculate euclidean distance
+                int distance = (int) Math.sqrt(dx * dx + dy * dy);
+                if (distance == radius) {
                     tileList.add(new WorldPoint(npcLocation.getX() + dx, npcLocation.getY() + dy, npcLocation.getPlane()));
                 }
             }
